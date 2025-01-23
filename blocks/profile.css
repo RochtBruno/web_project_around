@@ -4,8 +4,15 @@
 	justify-content: start;
 	align-items: center;
 	position: relative;
-  }
+}
 
+.profile__modal.opened{
+	display: block;
+}
+
+.profile__overlay.opened{
+	display: block;
+}
 .profile__overlay{
 	position: fixed;
 	top: 0;
@@ -16,9 +23,7 @@
 	z-index: 1; /* Abaixo do modal */
 	display: none;
 }
-.opened{
-	display: block;
-}
+
 .profile__modal{
 	display: none;
 	box-sizing: border-box;
@@ -40,6 +45,9 @@
 	cursor: pointer;
 	font-size: 40px;
 	color: #ffffff;
+}
+.profile__modal-icon:hover{
+	opacity: 0.6;
 }
 .profile__modal-title{
 	font-family: "Inter";
@@ -71,6 +79,9 @@
 	border-radius: 2px;
 	padding: 10px 0;
 	margin-top: 70px;
+}
+.profile__modal-button:hover{
+	opacity: 0.8;
 }
   .profile__image {
 	width: 120px;
