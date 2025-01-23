@@ -5,7 +5,73 @@
 	align-items: center;
 	position: relative;
   }
-  
+
+.profile__overlay{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5); /* Preto semitransparente */
+	z-index: 1; /* Abaixo do modal */
+	display: none;
+}
+.opened{
+	display: block;
+}
+.profile__modal{
+	display: none;
+	box-sizing: border-box;
+	padding: 0 40px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -30%);
+	width: 430px;
+	height: 330px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	z-index: 2;
+}
+.profile__modal-icon{
+	position: absolute;
+	top: -35px;
+	right: -30px;
+	cursor: pointer;
+	font-size: 40px;
+	color: #ffffff;
+}
+.profile__modal-title{
+	font-family: "Inter";
+	font-size: 24px;
+	font-weight: 900;
+	line-height: 29px;
+}
+.profile__modal-input{
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid #545454;
+	padding-bottom: 10px;
+	font-size: 14px;
+	margin-top: 25px;
+}
+
+.profile__modal-input:focus{
+	outline: none;
+}
+
+.profile__modal-button{
+	width: 100%;
+	background-color: #000000;
+	color: #ffffff;
+	font-family: "Inter";
+	font-size: 18px;
+	border: none;
+	cursor: pointer;
+	border-radius: 2px;
+	padding: 10px 0;
+	margin-top: 70px;
+}
   .profile__image {
 	width: 120px;
 	height: 120px;
@@ -42,11 +108,15 @@
   
   .profile__infos-icon {
 	color: #ffffff;
-	font-size: 40px;
+	font-size: 28px;
 	position: absolute;
-	top: 40px;
-	right: 0;
+	top: 48px;
+	right: 15px;
 	cursor: pointer;
+  }
+
+  .profile__infos-icon:hover {
+	opacity: 0.6;
   }
   
   .profile__button {
@@ -63,9 +133,51 @@
 	justify-content: center;
 	align-items: center;
   }
+
+  .profile__button-rectangle:hover {
+	opacity: 0.6;
+  }
   
   .profile__button-icon {
 	color: #ffffff;
 	font-size: 20px;
   }
-  
+  .profile__button-icon:hover {
+	opacity: 0.6;
+  }
+
+@media screen and (max-width: 768px) {
+	.profile {
+		width: 100%;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding-bottom: 60px;
+		box-sizing: border-box;
+		width: 100%;
+		overflow: hidden;
+	}
+	.profile__infos {
+		text-align: center;
+	}
+	.profile__image{
+		margin: 0 auto;
+	}
+	.profile__infos-title {
+		font-size: 22px;
+	  }
+	.profile__infos-icon{
+		position: absolute;
+		right: 70px;
+		top: 35px;
+		font-size: 20px;
+	}
+	.profile__button-rectangle {
+		width: 282px;
+	  }
+	.profile__button{
+		bottom: 0;
+		right:50%;
+		transform: translateX(50%);
+	}
+}

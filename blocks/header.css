@@ -2,8 +2,16 @@
 	padding-top: 45px;
 	padding-bottom: 45px;
 	border-bottom: 1px solid #545454;
+
 }
 .header__logo{
 	width: 173px;
 	height:33px
+}
+
+@media screen and (max-width: 768px){
+	.header{
+		padding-left: 2%;
+		padding-right: 2%;
+	}
 }
