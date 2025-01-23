@@ -30,6 +30,7 @@ O projeto foi desenvolvido com as seguintes tecnologias:
 3. **Responsividade**:
    - Layout ajustado para diferentes dispositivos.
 
-##Link para o website:
+## Link para o website:
+
 https://rochtbruno.github.io/web_project_around/
 
