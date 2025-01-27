@@ -9,15 +9,13 @@
 .cards__card{
 	width: 282px;
 	height: 361px;
-	border-radius: 10px;
 	background-color: #ffffff;
+	border-radius: 10px;
 }
 
-.cards__card-image__inner{
+.cards__card-image-inner{
 	width: 100%;
 	height: 100%;
-	border-top-right-radius:10px;
-	border-top-left-radius:10px;
 }
 .cards__card-infos{
 	display: flex;
@@ -28,7 +26,7 @@
 .cards__card-title{
 	font-family: "Inter";
 	font-size: 24px;
-	font-weight: bolder;
+	font-weight: 900;
 	line-height: 28px;
 	text-overflow: ellipsis;
 	white-space: nowrap;

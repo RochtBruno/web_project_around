@@ -1,28 +1,28 @@
-let	editProfile = document.querySelector('.profile__infos-icon');
-let	modal = document.querySelector('.profile__modal');
-let overlay = document.querySelector('.profile__overlay');
-let closeModal = document.querySelector('.profile__modal-icon');
-let formElement = document.querySelector('.profile__modal-form');
-let nameInput = document.querySelector('#nameInput');
-let jobInput = document.querySelector('#jobInput');
-let title = document.querySelector('.profile__infos-title');
-let job = document.querySelector('.profile__infos-description');
-let submitButton = document.querySelector('.profile__modal-button');
+const editProfile = document.querySelector('.profile__infos-icon');
+const modal = document.querySelector('.profile__modal');
+const overlay = document.querySelector('.profile__overlay');
+const closeModal = document.querySelector('.profile__modal-icon');
+const formElement = document.querySelector('.profile__modal-form');
+const nameInput = document.querySelector('#nameInput');
+const jobInput = document.querySelector('#jobInput');
+const title = document.querySelector('.profile__infos-title');
+const job = document.querySelector('.profile__infos-description');
+const form = document.querySelector('.profile__modal-form');
 
 nameInput.value = title.textContent;
 jobInput.value = job.textContent;
 
-editProfile.addEventListener('click', function() {
+editProfile.addEventListener('click', function () {
 	modal.classList.add('opened');
 	overlay.classList.add('opened');
 });
 
-closeModal.addEventListener('click', function() {
+closeModal.addEventListener('click', function () {
 	modal.classList.remove('opened');
 	overlay.classList.remove('opened');
 });
 
-function handleSubmit(e){
+function handleSubmit(e) {
 	e.preventDefault();
 
 	title.textContent = nameInput.value;
@@ -32,4 +32,4 @@ function handleSubmit(e){
 	overlay.classList.remove('opened');
 }
 
-submitButton.addEventListener('click', handleSubmit);
+form.addEventListener('submit', handleSubmit);
