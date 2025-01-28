@@ -7,7 +7,6 @@
 	<meta name="keywords" content="viagens, experiências, turismo">
 	<meta name="description" content="Página sobre minhas viagens e experiências">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<script src="https://kit.fontawesome.com/c442a23036.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="./pages/index.css">
 	<title>Around Us</title>
 </head>
@@ -19,7 +18,7 @@
 		<section class="profile">
 			<div class="profile__overlay"></div>
 			<div class="profile__modal">
-				<i class="profile__modal-icon fa-solid fa-xmark"></i>
+				<img class="profile__modal-close" src="images/close-modal.png" alt="botão de fechar modal">
 				<h2 class="profile__modal-title">Editar perfil</h2>
 				<form class="profile__modal-form">
 					<input type="text" id="nameInput" class="profile__modal-input" placeholder="Nome" required >
@@ -33,11 +32,13 @@
 			<div class="profile__infos">
 				<h2 class="profile__infos-title">Jacques Cousteau</h2>
 				<p class="profile__infos-description">Explorador</p>
-				<i class="profile__infos-icon fa-regular fa-pen-to-square"></i>
+				<div class="profile__infos-edit">
+					<img src="images/edit.png" alt="botão de editar perfil">
+				</div>
 			</div>
 			<div class="profile__button">
 				<div class="profile__button-rectangle">
-					<i class="profile__button-icon fa-regular fa-plus"></i>
+					<img src="images/add.png" alt="botão de adicionar card">
 				</div>
 			</div>
 		</section>
