@@ -31,12 +31,13 @@
 	white-space: nowrap;
 	overflow: hidden;
 }
-.cards__card-icon{
+.cards__card-like{
+	background-color: black;
 	cursor: pointer;
 	width: 21px;
 	height: 19px;
 }
-.cards__card-icon:hover{
+.cards__card-like:hover{
 	opacity: 0.5;
 }
 

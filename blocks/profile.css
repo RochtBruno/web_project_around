@@ -48,6 +48,8 @@
 .profile__modal-close:hover{
 	opacity: 0.6;
 }
+
+
 .profile__modal-title{
 	font-size: 24px;
 	font-weight: 900;
@@ -81,6 +83,34 @@
 .profile__modal-button:hover{
 	opacity: 0.8;
 }
+
+.profile__modal-add{
+	display: none;
+	box-sizing: border-box;
+	padding: 0 40px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 430px;
+	height: 330px;
+	background-color: #ffffff;
+	border-radius: 10px;
+	z-index: 2;
+}
+
+.profile__modal-add-close{
+	position: absolute;
+	top: -35px;
+	right: -35px;
+	cursor: pointer;
+}
+
+.profile__modal-add.opened{
+	display: block;
+}
+
+
 .profile__infos-edit{
 	width: 24px;
 	height: 24px;
