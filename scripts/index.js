@@ -86,6 +86,11 @@ initialCards.forEach(card => {
   const cardElement = document.createElement("div");
   cardElement.classList.add("cards__card");
 
+  const deleteCard = document.createElement("img");
+  deleteCard.classList.add("cards__card-delete");
+  deleteCard.src = "images/Trash.svg";
+  cardElement.append(deleteCard);
+
   const cardImageContainer = document.createElement("div");
   cardImageContainer.classList.add("cards__card-image");
 
@@ -120,3 +125,28 @@ initialCards.forEach(card => {
 
   cardsContainer.appendChild(cardElement);
 });
+
+/////////////// LIKE BUTTON //////////////
+
+const likeButtons = document.querySelectorAll(".cards__card-like");
+
+likeButtons.forEach(likeButton =>{
+	likeButton.addEventListener("click",()=>{
+		if(likeButton.src.includes("images/Group.svg"))
+			likeButton.src = "images/Union.svg";
+		else if(likeButton.src.includes("images/Union.svg"))
+			likeButton.src = "images/Group.svg";
+	});
+})
+
+
+//////////// DELETE CARD /////////////
+const deleteCards = document.querySelectorAll(".cards__card-delete");
+
+deleteCards.forEach((deleteCard,index) => {
+	deleteCard.addEventListener("click",(event)=>{
+		const card = event.target.closest(".cards__card");
+		if(card)
+			card.remove();
+	})
+})

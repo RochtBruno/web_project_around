@@ -106,6 +106,10 @@
 	cursor: pointer;
 }
 
+.profile__modal-add-close:hover{
+	opacity: 0.8;
+}
+
 .profile__modal-add.opened{
 	display: block;
 }
@@ -244,6 +248,18 @@
 @media screen and (max-width: 540px){
 	.profile__infos-edit{
 		right: 18%;
+	}
+	.profile__modal-add{
+		width: 80%;
+		height: 330px;
+	}
+	.profile__modal-add-close{
+		right: 0;
+		top: -50px;
+	}
+	.profile__modal-close{
+		right: 0;
+		top: -50px;
 	}
 }
 
