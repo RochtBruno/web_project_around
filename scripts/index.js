@@ -180,3 +180,35 @@ function handleAddNewCard(e){
 formAddCard.addEventListener("submit",handleAddNewCard)
 
 renderCards();
+
+///////POP-UP DA IMAGEM/////////
+const popUpImages = document.querySelectorAll(".cards__card-image-inner")
+popUpImages.forEach(popUpImage => {
+	popUpImage.addEventListener("click",(event)=>{
+		const imageUrl = event.target.src;
+		const card = event.target.closest(".cards__card");
+        const cardTitle = card.querySelector(".cards__card-title")?.textContent || "Sem título";
+		const popup = document.createElement("div");
+        popup.classList.add("popup__overlay");
+        popup.innerHTML = `
+            <div class="popup__content">
+                <img src="${imageUrl}" alt="Imagem Expandida">
+                <img src="images/close-modal.png" class="popup__close"></img>
+				<p class="popup__description">${cardTitle}</p>
+            </div>
+        `;
+
+        document.body.appendChild(popup);
+
+
+        document.querySelector(".popup__close").addEventListener("click", () => {
+            popup.remove();
+        });
+
+        popup.addEventListener("click", (e) => {
+            if (e.target === popup) {
+                popup.remove();
+            }
+        });
+	})
+})
