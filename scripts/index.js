@@ -80,73 +80,103 @@ const initialCards = [
 	}
 ];
 
+function setupLikeButton(likeButton) {
+	likeButton.addEventListener("click", () => {
+		if (likeButton.src.includes("images/Group.svg")) {
+			likeButton.src = "images/Union.svg";
+		} else if (likeButton.src.includes("images/Union.svg")) {
+			likeButton.src = "images/Group.svg";
+		}
+	});
+}
+
 const cardsContainer = document.querySelector(".cards");
 
-initialCards.forEach(card => {
-  const cardElement = document.createElement("div");
-  cardElement.classList.add("cards__card");
+function renderCards(){
+	cardsContainer.innerHTML = "";
+	initialCards.forEach(card => {
+		const cardElement = document.createElement("div");
+		cardElement.classList.add("cards__card");
 
-  const deleteCard = document.createElement("img");
-  deleteCard.classList.add("cards__card-delete");
-  deleteCard.src = "images/Trash.svg";
-  cardElement.append(deleteCard);
+		const deleteCard = document.createElement("img");
+		deleteCard.classList.add("cards__card-delete");
+		deleteCard.src = "images/Trash.svg";
+		cardElement.append(deleteCard);
 
-  const cardImageContainer = document.createElement("div");
-  cardImageContainer.classList.add("cards__card-image");
+		const cardImageContainer = document.createElement("div");
+		cardImageContainer.classList.add("cards__card-image");
 
-  const cardImage = document.createElement("img");
-  cardImage.classList.add("cards__card-image-inner");
-  cardImage.src = card.link;
-  cardImage.alt = `Imagem de ${card.name}`;
+		const cardImage = document.createElement("img");
+		cardImage.classList.add("cards__card-image-inner");
+		cardImage.src = card.link;
+		cardImage.alt = `Imagem de ${card.name}`;
 
-  cardImageContainer.appendChild(cardImage);
+		cardImageContainer.appendChild(cardImage);
 
-  const cardInfos = document.createElement("div");
-  cardInfos.classList.add("cards__card-infos");
+		const cardInfos = document.createElement("div");
+		cardInfos.classList.add("cards__card-infos");
 
-  const cardTitle = document.createElement("h2");
-  cardTitle.classList.add("cards__card-title");
-  cardTitle.textContent = card.name;
+		const cardTitle = document.createElement("h2");
+		cardTitle.classList.add("cards__card-title");
+		cardTitle.textContent = card.name;
 
-  const likeButton = document.createElement("img");
-  likeButton.classList.add("cards__card-like");
-  likeButton.src = "images/Group.svg";
-  likeButton.alt = "botão de curtir";
+		const likeButton = document.createElement("img");
+		likeButton.classList.add("cards__card-like");
+		likeButton.src = "images/Group.svg";
+		likeButton.alt = "botão de curtir";
 
-  likeButton.addEventListener("click", () => {
-    likeButton.classList.toggle("active");
-  });
+		setupLikeButton(likeButton);
 
-  cardInfos.appendChild(cardTitle);
-  cardInfos.appendChild(likeButton);
+		deleteCard.addEventListener("click", () => {
+			cardElement.remove();
+		});
 
-  cardElement.appendChild(cardImageContainer);
-  cardElement.appendChild(cardInfos);
+		likeButton.addEventListener("click", () => {
+		  likeButton.classList.toggle("active");
+		});
 
-  cardsContainer.appendChild(cardElement);
-});
+		cardInfos.appendChild(cardTitle);
+		cardInfos.appendChild(likeButton);
+
+		cardElement.appendChild(cardImageContainer);
+		cardElement.appendChild(cardInfos);
+
+		cardsContainer.appendChild(cardElement);
+	  });
+}
 
 /////////////// LIKE BUTTON //////////////
 
-const likeButtons = document.querySelectorAll(".cards__card-like");
-
-likeButtons.forEach(likeButton =>{
-	likeButton.addEventListener("click",()=>{
-		if(likeButton.src.includes("images/Group.svg"))
-			likeButton.src = "images/Union.svg";
-		else if(likeButton.src.includes("images/Union.svg"))
-			likeButton.src = "images/Group.svg";
-	});
-})
-
+document.querySelectorAll(".cards__card-like").forEach(setupLikeButton);
 
 //////////// DELETE CARD /////////////
 const deleteCards = document.querySelectorAll(".cards__card-delete");
 
-deleteCards.forEach((deleteCard,index) => {
+deleteCards.forEach((deleteCard) => {
 	deleteCard.addEventListener("click",(event)=>{
 		const card = event.target.closest(".cards__card");
 		if(card)
 			card.remove();
 	})
 })
+
+////////////ADICIONAR CARDS PELO FORMULARIO/////////
+
+const formAddCard = document.querySelector(".profile__modal-add-form");
+const cardTitle = document.querySelector("#titleInput");
+const cardImage = document.querySelector("#linkInput");
+
+function handleAddNewCard(e){
+	e.preventDefault();
+	initialCards.unshift({name:cardTitle.value,link:cardImage.value});
+	console.log(initialCards)
+	renderCards();
+	cardTitle.value = "";
+	cardImage.value = "";
+	modalAdd.classList.remove('opened');
+	overlay.classList.remove('opened');
+}
+
+formAddCard.addEventListener("submit",handleAddNewCard)
+
+renderCards();
