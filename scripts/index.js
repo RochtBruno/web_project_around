@@ -182,36 +182,52 @@ formAddCard.addEventListener("submit",handleAddNewCard)
 renderCards();
 
 ///////POP-UP DA IMAGEM/////////
-const popUpImages = document.querySelectorAll(".cards__card-image-inner")
+const popUpImages = document.querySelectorAll(".cards__card-image-inner");
+
 popUpImages.forEach(popUpImage => {
-	popUpImage.addEventListener("click",(event)=>{
-		const imageUrl = event.target.src;
-		const card = event.target.closest(".cards__card");
+    popUpImage.addEventListener("click", (event) => {
+        const imageUrl = event.target.src;
+        const card = event.target.closest(".cards__card");
         const cardTitle = card.querySelector(".cards__card-title")?.textContent || "Sem título";
-		const popup = document.createElement("div");
+        
+        const popup = document.createElement("div");
         popup.classList.add("popup__overlay");
         popup.innerHTML = `
             <div class="popup__content">
                 <img src="${imageUrl}" alt="Imagem Expandida">
-                <img src="images/close-modal.png" class="popup__close"></img>
-				<p class="popup__description">${cardTitle}</p>
+                <img src="images/close-modal.png" class="popup__close">
+                <p class="popup__description">${cardTitle}</p>
             </div>
         `;
 
         document.body.appendChild(popup);
 
-
-        document.querySelector(".popup__close").addEventListener("click", () => {
+        // Função para fechar o pop-up
+        function closePopup() {
             popup.remove();
-        });
+            document.removeEventListener("keydown", escKeyListener); // Remove o evento ao fechar
+        }
 
+        // Fechar ao clicar no botão de fechar
+        document.querySelector(".popup__close").addEventListener("click", closePopup);
+
+        // Fechar ao clicar fora da imagem
         popup.addEventListener("click", (e) => {
             if (e.target === popup) {
-                popup.remove();
+                closePopup();
             }
         });
-	})
-})
+
+        // Fechar ao pressionar "Esc"
+        function escKeyListener(e) {
+            if (e.key === "Escape") {
+                closePopup();
+            }
+        }
+
+        document.addEventListener("keydown", escKeyListener);
+    });
+});
 
 //Validação de formulário
 
@@ -278,4 +294,73 @@ formElement.addEventListener('submit', function (e) {
         document.querySelector('.profile__modal').classList.remove('opened');
         document.querySelector('.profile__overlay').classList.remove('opened');
     }
+});
+
+/////////////////////////////////////////////////////////
+
+const titleInput = document.querySelector("#titleInput");
+const linkInput = document.querySelector("#linkInput");
+const saveAddButton = formAddCard.querySelector(".profile__modal-button");
+
+// Função para validar a URL
+function isValidUrl(url) {
+    try {
+        new URL(url);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+// Função para validar os campos e exibir mensagens de erro
+function validateAddCardForm() {
+    let isValid = true;
+
+    if (titleInput.value.length < 2 || titleInput.value.length > 30) {
+        showError(titleInput, "O título deve ter entre 2 e 30 caracteres.");
+        isValid = false;
+    } else {
+        clearError(titleInput);
+    }
+
+    if (!isValidUrl(linkInput.value)) {
+        showError(linkInput, "Insira uma URL válida.");
+        isValid = false;
+    } else {
+        clearError(linkInput);
+    }
+
+    saveAddButton.disabled = !isValid;
+    saveAddButton.style.backgroundColor = isValid ? "#000" : "#ddd"; // Fundo preto quando ativo, cinza quando inativo
+    saveAddButton.style.color = isValid ? "#fff" : "#777"; // Texto branco quando ativo, cinza escuro quando inativo
+}
+
+// Garante que o botão começa desativado ao carregar a página
+document.addEventListener("DOMContentLoaded", () => {
+    saveAddButton.disabled = true;
+    saveAddButton.style.backgroundColor = "#ddd";
+    saveAddButton.style.color = "#777";
+});
+
+// Eventos para validar os inputs em tempo real
+titleInput.addEventListener("input", validateAddCardForm);
+linkInput.addEventListener("input", validateAddCardForm);
+
+// Impedir envio do formulário se não for válido
+formAddCard.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    if (!titleInput.value || !linkInput.value || !isValidUrl(linkInput.value)) {
+        validateAddCardForm();
+        return;
+    }
+
+    initialCards.unshift({ name: titleInput.value, link: linkInput.value });
+    renderCards();
+
+    formAddCard.reset();
+    validateAddCardForm();
+
+    modalAdd.classList.remove("opened");
+    overlay.classList.remove("opened");
 });
