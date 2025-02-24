@@ -78,7 +78,7 @@
 	cursor: pointer;
 	border-radius: 2px;
 	padding: 10px 0;
-	margin-top: 70px;
+	margin-top: 40px;
 }
 .profile__modal-button:hover{
 	opacity: 0.8;
@@ -114,7 +114,20 @@
 	display: block;
 }
 
+.input-error {
+    border-bottom: 1px solid #ff0000;
+}
 
+.error-message {
+    color: #ff0000;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.profile__modal-button:disabled {
+    background-color: #ddd;
+    color: gray;
+}
 .profile__infos-edit{
 	width: 24px;
 	height: 24px;

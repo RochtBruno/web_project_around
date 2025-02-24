@@ -212,3 +212,70 @@ popUpImages.forEach(popUpImage => {
         });
 	})
 })
+
+//Validação de formulário
+
+const saveButton = document.querySelector('.profile__modal-button');
+
+function showError(input, message) {
+    let errorElement = input.nextElementSibling;
+    if (!errorElement || !errorElement.classList.contains('error-message')) {
+        errorElement = document.createElement('span');
+        errorElement.classList.add('error-message');
+        input.parentNode.insertBefore(errorElement, input.nextSibling);
+    }
+    errorElement.textContent = message;
+    input.classList.add('input-error');
+}
+
+function clearError(input) {
+    const errorElement = input.nextElementSibling;
+    if (errorElement && errorElement.classList.contains('error-message')) {
+        errorElement.textContent = '';
+    }
+    input.classList.remove('input-error');
+}
+
+function validateInput(input, minLength, maxLength, fieldName) {
+    const value = input.value.trim();
+    
+    if (value.length === 0) {
+        showError(input, `Preencha esse campo.`);
+        return false;
+    } else if (value.length < minLength || value.length > maxLength) {
+        showError(input, `${fieldName} deve ter entre ${minLength} e ${maxLength} caracteres.`);
+        return false;
+    } else {
+        clearError(input);
+        return true;
+    }
+}
+
+function validateForm() {
+	const isNameValid = validateInput(nameInput, 2, 40, "Nome");
+    const isJobValid = validateInput(jobInput, 2, 200, "Sobre");
+
+    saveButton.disabled = !(isNameValid && isJobValid);
+
+    if (saveButton.disabled) {
+        saveButton.style.backgroundColor = "#ddd"; // Fundo cinza
+        saveButton.style.color = "#777"; // Texto cinza mais escuro
+    } else {
+        saveButton.style.backgroundColor = "#000"; // Fundo preto
+        saveButton.style.color = "#fff"; // Texto branco
+    }
+}
+
+// Adiciona eventos de validação conforme o usuário digita
+nameInput.addEventListener('input', validateForm);
+jobInput.addEventListener('input', validateForm);
+
+formElement.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (validateForm()) {
+        document.querySelector('.profile__infos-title').textContent = nameInput.value;
+        document.querySelector('.profile__infos-description').textContent = jobInput.value;
+        document.querySelector('.profile__modal').classList.remove('opened');
+        document.querySelector('.profile__overlay').classList.remove('opened');
+    }
+});
