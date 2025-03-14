@@ -1,3 +1,5 @@
+import { Card } from "./Card.js";
+
 const editProfile = document.querySelector('.profile__infos-edit');
 const createNewCard = document.querySelector('.profile__button-rectangle');
 const modal = document.querySelector('.profile__modal');
@@ -80,7 +82,7 @@ const initialCards = [
 	}
 ];
 
-function setupLikeButton(likeButton) {
+/*function setupLikeButton(likeButton) {
 	likeButton.addEventListener("click", () => {
 		if (likeButton.src.includes("images/Group.svg")) {
 			likeButton.src = "images/Union.svg";
@@ -88,11 +90,12 @@ function setupLikeButton(likeButton) {
 			likeButton.src = "images/Group.svg";
 		}
 	});
-}
+}*/
 
 const cardsContainer = document.querySelector(".cards");
 
-function renderCards(){
+
+/*function renderCards(){
 	cardsContainer.innerHTML = "";
 	initialCards.forEach(card => {
 		const cardElement = document.createElement("div");
@@ -143,11 +146,19 @@ function renderCards(){
 
 		cardsContainer.appendChild(cardElement);
 	  });
-}
+}*/
+function renderCards() {
+    cardsContainer.innerHTML = "";
+    initialCards.forEach(cardData => {
+      const card = new Card(cardData, "#card-template");
+      cardsContainer.appendChild(card.getCardElement());
+    });
+  }
+
 
 /////////////// LIKE BUTTON //////////////
 
-document.querySelectorAll(".cards__card-like").forEach(setupLikeButton);
+/*document.querySelectorAll(".cards__card-like").forEach(setupLikeButton);
 
 //////////// DELETE CARD /////////////
 const deleteCards = document.querySelectorAll(".cards__card-delete");
@@ -158,7 +169,7 @@ deleteCards.forEach((deleteCard) => {
 		if(card)
 			card.remove();
 	})
-})
+})*/
 
 ////////////ADICIONAR CARDS PELO FORMULARIO/////////
 
@@ -166,7 +177,7 @@ const formAddCard = document.querySelector(".profile__modal-add-form");
 const cardTitle = document.querySelector("#titleInput");
 const cardImage = document.querySelector("#linkInput");
 
-function handleAddNewCard(e){
+/*function handleAddNewCard(e){
 	e.preventDefault();
 	initialCards.unshift({name:cardTitle.value,link:cardImage.value});
 	console.log(initialCards)
@@ -175,11 +186,24 @@ function handleAddNewCard(e){
 	cardImage.value = "";
 	modalAdd.classList.remove('opened');
 	overlay.classList.remove('opened');
+}*/
+
+function handleAddNewCard(e){
+	e.preventDefault();
+    const cardTitle = document.querySelector("#titleInput").value;
+    const cardImage = document.querySelector("#linkInput").value;
+
+    initialCards.unshift({ name: cardTitle, link: cardImage });
+    renderCards();
+	cardTitle.value = "";
+	cardImage.value = "";
+	modalAdd.classList.remove('opened');
+	overlay.classList.remove('opened');
 }
 
 formAddCard.addEventListener("submit",handleAddNewCard)
-
-renderCards();
+document.addEventListener("DOMContentLoaded", renderCards);
+//renderCards();
 
 ///////POP-UP DA IMAGEM/////////
 const popUpImages = document.querySelectorAll(".cards__card-image-inner");
@@ -189,7 +213,7 @@ popUpImages.forEach(popUpImage => {
         const imageUrl = event.target.src;
         const card = event.target.closest(".cards__card");
         const cardTitle = card.querySelector(".cards__card-title")?.textContent || "Sem título";
-        
+
         const popup = document.createElement("div");
         popup.classList.add("popup__overlay");
         popup.innerHTML = `
@@ -254,7 +278,7 @@ function clearError(input) {
 
 function validateInput(input, minLength, maxLength, fieldName) {
     const value = input.value.trim();
-    
+
     if (value.length === 0) {
         showError(input, `Preencha esse campo.`);
         return false;
