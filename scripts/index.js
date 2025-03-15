@@ -1,4 +1,5 @@
 import { Card } from "./Card.js";
+import { FormValidator } from './FormValidator.js';
 
 const editProfile = document.querySelector('.profile__infos-edit');
 const createNewCard = document.querySelector('.profile__button-rectangle');
@@ -206,7 +207,7 @@ document.addEventListener("DOMContentLoaded", renderCards);
 //renderCards();
 
 ///////POP-UP DA IMAGEM/////////
-const popUpImages = document.querySelectorAll(".cards__card-image-inner");
+/*const popUpImages = document.querySelectorAll(".cards__card-image-inner");
 
 popUpImages.forEach(popUpImage => {
     popUpImage.addEventListener("click", (event) => {
@@ -251,11 +252,11 @@ popUpImages.forEach(popUpImage => {
 
         document.addEventListener("keydown", escKeyListener);
     });
-});
+});*/
 
 //Validação de formulário
 
-const saveButton = document.querySelector('.profile__modal-button');
+/*const saveButton = document.querySelector('.profile__modal-button');
 
 function showError(input, message) {
     let errorElement = input.nextElementSibling;
@@ -387,4 +388,33 @@ formAddCard.addEventListener("submit", function (e) {
 
     modalAdd.classList.remove("opened");
     overlay.classList.remove("opened");
-});
+});*/
+
+// Configurações para validação
+const validationConfig = {
+    formSelector: '.modal__form',
+    inputSelector: '.modal__input',
+    submitButtonSelector: '.profile__modal-button',
+    inactiveButtonClass: 'button--disabled',
+    inputErrorClass: 'input--error',
+    errorClass: 'error-message'
+  };
+  
+  // Inicialização dos validadores
+  const profileFormValidator = new FormValidator(validationConfig, document.querySelector('.profile__modal-form'));
+  const cardFormValidator = new FormValidator(validationConfig, document.querySelector('.profile__modal-add-form'));
+  
+  // Habilita a validação
+  profileFormValidator.enableValidation();
+  cardFormValidator.enableValidation();
+  
+  // Evento de submit para o formulário de perfil
+  document.querySelector('.profile__modal-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (profileFormValidator._isFormValid()) {
+      document.querySelector('.profile__infos-title').textContent = nameInput.value;
+      document.querySelector('.profile__infos-description').textContent = jobInput.value;
+      modalAdd.classList.remove("opened");
+      overlay.classList.remove("opened");
+    }
+  });

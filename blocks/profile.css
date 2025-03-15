@@ -119,9 +119,14 @@
 }
 
 .error-message {
+	display: none;
     color: #ff0000;
     font-size: 12px;
     margin-top: 5px;
+}
+
+.error-message--visible {
+	display: block; /* Exibe a mensagem de erro quando a classe é adicionada */
 }
 
 .profile__modal-button:disabled {
