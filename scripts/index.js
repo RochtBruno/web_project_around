@@ -1,4 +1,5 @@
 import { Card } from "./Card.js";
+import { FormValidator } from './FormValidator.js';
 
 const editProfile = document.querySelector('.profile__infos-edit');
 const createNewCard = document.querySelector('.profile__button-rectangle');
@@ -97,18 +98,18 @@ function renderCards() {
 ////////////ADICIONAR CARDS PELO FORMULARIO/////////
 
 const formAddCard = document.querySelector(".profile__modal-add-form");
-const cardTitle = document.querySelector("#titleInput");
-const cardImage = document.querySelector("#linkInput");
+const titleInput = document.querySelector("#titleInput");
+const linkInput = document.querySelector("#linkInput");
 
 function handleAddNewCard(e){
 	e.preventDefault();
-  const cardTitle = document.querySelector("#titleInput").value;
-  const cardImage = document.querySelector("#linkInput").value;
+  const titleValue = titleInput.value;
+  const linkValue = linkInput.value;
 
-  initialCards.unshift({ name: cardTitle, link: cardImage });
+  initialCards.unshift({ name: titleValue, link: linkValue });
   renderCards();
-	cardTitle.value = "";
-	cardImage.value = "";
+  titleInput.value = "";
+  linkInput.value = "";
 	modalAdd.classList.remove('opened');
 	overlay.classList.remove('opened');
 }
@@ -117,139 +118,22 @@ formAddCard.addEventListener("submit",handleAddNewCard)
 document.addEventListener("DOMContentLoaded", renderCards);
 
 
+const validationConfig = {
+  inputSelector: '.profile__modal-input',
+  submitButtonSelector: '.profile__modal-button',
+  inactiveButtonClass: 'button--disabled',
+  inputErrorClass: 'input-error',
+  errorClass: 'error-message'
+};
 
-//Validação de formulário
+const formEditProfile = document.querySelector('.profile__modal-form');
+//const formAddCard = document.querySelector('.profile__modal-add-form');
 
-const saveButton = document.querySelector('.profile__modal-button');
+// Cria instâncias para cada formulário
+const editProfileValidator = new FormValidator(validationConfig, formEditProfile);
+const addCardValidator = new FormValidator(validationConfig, formAddCard);
 
-function showError(input, message) {
-    let errorElement = input.nextElementSibling;
-    if (!errorElement || !errorElement.classList.contains('error-message')) {
-        errorElement = document.createElement('span');
-        errorElement.classList.add('error-message');
-        input.parentNode.insertBefore(errorElement, input.nextSibling);
-    }
-    errorElement.textContent = message;
-    input.classList.add('input-error');
-}
+// Habilita a validação
+editProfileValidator.enableValidation();
+addCardValidator.enableValidation();
 
-function clearError(input) {
-    const errorElement = input.nextElementSibling;
-    if (errorElement && errorElement.classList.contains('error-message')) {
-        errorElement.textContent = '';
-    }
-    input.classList.remove('input-error');
-}
-
-function validateInput(input, minLength, maxLength, fieldName) {
-    const value = input.value.trim();
-
-    if (value.length === 0) {
-        showError(input, `Preencha esse campo.`);
-        return false;
-    } else if (value.length < minLength || value.length > maxLength) {
-        showError(input, `${fieldName} deve ter entre ${minLength} e ${maxLength} caracteres.`);
-        return false;
-    } else {
-        clearError(input);
-        return true;
-    }
-}
-
-function validateForm() {
-	const isNameValid = validateInput(nameInput, 2, 40, "Nome");
-    const isJobValid = validateInput(jobInput, 2, 200, "Sobre");
-
-    saveButton.disabled = !(isNameValid && isJobValid);
-
-    if (saveButton.disabled) {
-        saveButton.style.backgroundColor = "#ddd"; // Fundo cinza
-        saveButton.style.color = "#777"; // Texto cinza mais escuro
-    } else {
-        saveButton.style.backgroundColor = "#000"; // Fundo preto
-        saveButton.style.color = "#fff"; // Texto branco
-    }
-}
-
-// Adiciona eventos de validação conforme o usuário digita
-nameInput.addEventListener('input', validateForm);
-jobInput.addEventListener('input', validateForm);
-
-formElement.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (validateForm()) {
-        document.querySelector('.profile__infos-title').textContent = nameInput.value;
-        document.querySelector('.profile__infos-description').textContent = jobInput.value;
-        document.querySelector('.profile__modal').classList.remove('opened');
-        document.querySelector('.profile__overlay').classList.remove('opened');
-    }
-});
-
-/////////////////////////////////////////////////////////
-
-const titleInput = document.querySelector("#titleInput");
-const linkInput = document.querySelector("#linkInput");
-const saveAddButton = formAddCard.querySelector(".profile__modal-button");
-
-// Função para validar a URL
-function isValidUrl(url) {
-    try {
-        new URL(url);
-        return true;
-    } catch {
-        return false;
-    }
-}
-
-// Função para validar os campos e exibir mensagens de erro
-function validateAddCardForm() {
-    let isValid = true;
-
-    if (titleInput.value.length < 2 || titleInput.value.length > 30) {
-        showError(titleInput, "O título deve ter entre 2 e 30 caracteres.");
-        isValid = false;
-    } else {
-        clearError(titleInput);
-    }
-
-    if (!isValidUrl(linkInput.value)) {
-        showError(linkInput, "Insira uma URL válida.");
-        isValid = false;
-    } else {
-        clearError(linkInput);
-    }
-
-    saveAddButton.disabled = !isValid;
-    saveAddButton.style.backgroundColor = isValid ? "#000" : "#ddd"; // Fundo preto quando ativo, cinza quando inativo
-    saveAddButton.style.color = isValid ? "#fff" : "#777"; // Texto branco quando ativo, cinza escuro quando inativo
-}
-
-// Garante que o botão começa desativado ao carregar a página
-document.addEventListener("DOMContentLoaded", () => {
-    saveAddButton.disabled = true;
-    saveAddButton.style.backgroundColor = "#ddd";
-    saveAddButton.style.color = "#777";
-});
-
-// Eventos para validar os inputs em tempo real
-titleInput.addEventListener("input", validateAddCardForm);
-linkInput.addEventListener("input", validateAddCardForm);
-
-// Impedir envio do formulário se não for válido
-formAddCard.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    if (!titleInput.value || !linkInput.value || !isValidUrl(linkInput.value)) {
-        validateAddCardForm();
-        return;
-    }
-
-    initialCards.unshift({ name: titleInput.value, link: linkInput.value });
-    //renderCards();
-
-    formAddCard.reset();
-    validateAddCardForm();
-
-    modalAdd.classList.remove("opened");
-    overlay.classList.remove("opened");
-});
