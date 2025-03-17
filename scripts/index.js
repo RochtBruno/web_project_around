@@ -1,6 +1,5 @@
-
 import { Card } from "./Card.js";
-//import { FormValidator } from "./FormValidator.js";
+
 const editProfile = document.querySelector('.profile__infos-edit');
 const createNewCard = document.querySelector('.profile__button-rectangle');
 const modal = document.querySelector('.profile__modal');
@@ -95,21 +94,6 @@ function renderCards() {
   }
 
 
-/////////////// LIKE BUTTON //////////////
-
-document.querySelectorAll(".cards__card-like").forEach(setupLikeButton);
-
-//////////// DELETE CARD /////////////
-const deleteCards = document.querySelectorAll(".cards__card-delete");
-
-deleteCards.forEach((deleteCard) => {
-	deleteCard.addEventListener("click",(event)=>{
-		const card = event.target.closest(".cards__card");
-		if(card)
-			card.remove();
-	})
-})
-
 ////////////ADICIONAR CARDS PELO FORMULARIO/////////
 
 const formAddCard = document.querySelector(".profile__modal-add-form");
@@ -118,12 +102,11 @@ const cardImage = document.querySelector("#linkInput");
 
 function handleAddNewCard(e){
 	e.preventDefault();
-    const cardTitle = document.querySelector("#titleInput").value;
-    const cardImage = document.querySelector("#linkInput").value;
+  const cardTitle = document.querySelector("#titleInput").value;
+  const cardImage = document.querySelector("#linkInput").value;
 
-    initialCards.unshift({ name: cardTitle, link: cardImage });
-    renderCards();
-
+  initialCards.unshift({ name: cardTitle, link: cardImage });
+  renderCards();
 	cardTitle.value = "";
 	cardImage.value = "";
 	modalAdd.classList.remove('opened');
@@ -131,65 +114,13 @@ function handleAddNewCard(e){
 }
 
 formAddCard.addEventListener("submit",handleAddNewCard)
+document.addEventListener("DOMContentLoaded", renderCards);
 
-renderCards();
+
 
 //Validação de formulário
-const validationConfig = {
-    formSelector: '.modal__form',
-    inputSelector: '.modal__input',
-    submitButtonSelector: '.profile__modal-button',
-    inactiveButtonClass: 'button--disabled',
-    inputErrorClass: 'input--error',
-    errorClass: 'error-message--visible'
-  };
 
-// Inicialização dos validadores
-const profileFormValidator = new FormValidator(validationConfig, document.querySelector('.profile__modal-form'));
-const cardFormValidator = new FormValidator(validationConfig, document.querySelector('.profile__modal-add-form'));
-
-profileFormValidator.enableValidation();
-cardFormValidator.enableValidation();
-
-document.querySelector('.profile__modal-form').addEventListener('formvalid', (e) => {
-  // Atualiza os dados do perfil
-  document.querySelector('.profile__infos-title').textContent = nameInput.value;
-  document.querySelector('.profile__infos-description').textContent = jobInput.value;
-
-  // Fecha o modal
-  modalAdd.classList.remove('opened');
-  overlay.classList.remove('opened');
-
-  // Reseta a validação
-  profileFormValidator.resetValidation();
-});
-
-/* Lógica do Submit do Novo Card */
-document.querySelector('.profile__modal-add-form').addEventListener('formvalid', (e) => {
-  // Adiciona o novo card
-  initialCards.unshift({
-    name: titleInput.value,
-    link: linkInput.value
-  });
-
-  // Atualiza a exibição dos cards
-  renderCards();
-
-  // Reseta o formulário
-  e.target.reset();
-
-  // Fecha o modal
-  modalAdd.classList.remove('opened');
-  overlay.classList.remove('opened');
-
-  // Reseta a validação
-  cardFormValidator.resetValidation();
-});
-
-// Inicialização dos cards
-document.addEventListener('DOMContentLoaded', renderCards);
-
-/*const saveButton = document.querySelector('.profile__modal-button');
+const saveButton = document.querySelector('.profile__modal-button');
 
 function showError(input, message) {
     let errorElement = input.nextElementSibling;
@@ -321,4 +252,4 @@ formAddCard.addEventListener("submit", function (e) {
 
     modalAdd.classList.remove("opened");
     overlay.classList.remove("opened");
-});*/
+});
