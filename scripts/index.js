@@ -1,6 +1,6 @@
-import { Card } from "./Card.js";
-import { FormValidator } from "./FormValidator.js";
 
+import { Card } from "./Card.js";
+//import { FormValidator } from "./FormValidator.js";
 const editProfile = document.querySelector('.profile__infos-edit');
 const createNewCard = document.querySelector('.profile__button-rectangle');
 const modal = document.querySelector('.profile__modal');
@@ -97,7 +97,7 @@ function renderCards() {
 
 /////////////// LIKE BUTTON //////////////
 
-/*document.querySelectorAll(".cards__card-like").forEach(setupLikeButton);
+document.querySelectorAll(".cards__card-like").forEach(setupLikeButton);
 
 //////////// DELETE CARD /////////////
 const deleteCards = document.querySelectorAll(".cards__card-delete");
@@ -108,7 +108,7 @@ deleteCards.forEach((deleteCard) => {
 		if(card)
 			card.remove();
 	})
-})*/
+})
 
 ////////////ADICIONAR CARDS PELO FORMULARIO/////////
 
@@ -123,6 +123,7 @@ function handleAddNewCard(e){
 
     initialCards.unshift({ name: cardTitle, link: cardImage });
     renderCards();
+
 	cardTitle.value = "";
 	cardImage.value = "";
 	modalAdd.classList.remove('opened');
@@ -130,9 +131,8 @@ function handleAddNewCard(e){
 }
 
 formAddCard.addEventListener("submit",handleAddNewCard)
-document.addEventListener("DOMContentLoaded", renderCards);
-//renderCards();
 
+renderCards();
 
 //Validação de formulário
 const validationConfig = {
