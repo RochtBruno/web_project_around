@@ -1,14 +1,15 @@
 import { Card } from "./Card.js";
 import { FormValidator } from './FormValidator.js';
+import { setupModalHandlers } from './utils.js';
 
-const editProfile = document.querySelector('.profile__infos-edit');
-const createNewCard = document.querySelector('.profile__button-rectangle');
+//const editProfile = document.querySelector('.profile__infos-edit');
+//const createNewCard = document.querySelector('.profile__button-rectangle');
 const modal = document.querySelector('.profile__modal');
 const modalAdd = document.querySelector('.profile__modal-add');
 const overlay = document.querySelector('.profile__overlay');
-const closeModal = document.querySelector('.profile__modal-close');
-const closeAddModal = document.querySelector('.profile__modal-add-close');
-const formElement = document.querySelector('.profile__modal-form');
+//const closeModal = document.querySelector('.profile__modal-close');
+//const closeAddModal = document.querySelector('.profile__modal-add-close');
+//const formElement = document.querySelector('.profile__modal-form');
 const nameInput = document.querySelector('#nameInput');
 const jobInput = document.querySelector('#jobInput');
 const title = document.querySelector('.profile__infos-title');
@@ -18,25 +19,20 @@ const form = document.querySelector('.profile__modal-form');
 nameInput.value = title.textContent;
 jobInput.value = job.textContent;
 
-editProfile.addEventListener('click', function () {
-	modal.classList.add('opened');
-	overlay.classList.add('opened');
+// Configuração para a modal de editar perfil
+setupModalHandlers({
+  triggerSelector: '.profile__infos-edit',
+  modalSelector: '.profile__modal',
+  closeSelector: '.profile__modal-close',
+  overlaySelector: '.profile__overlay'
 });
 
-createNewCard.addEventListener('click', function () {
-	modalAdd.classList.add('opened');
-	overlay.classList.add('opened');
-});
-
-closeModal.addEventListener('click', function () {
-	modal.classList.remove('opened');
-	overlay.classList.remove('opened');
-});
-
-
-closeAddModal.addEventListener('click', function () {
-	modalAdd.classList.remove('opened');
-	overlay.classList.remove('opened');
+// Configuração para a modal de adicionar card
+setupModalHandlers({
+  triggerSelector: '.profile__button-rectangle',
+  modalSelector: '.profile__modal-add',
+  closeSelector: '.profile__modal-add-close',
+  overlaySelector: '.profile__overlay'
 });
 
 function handleSubmit(e) {
