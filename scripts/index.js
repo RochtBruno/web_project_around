@@ -33,7 +33,7 @@ const userInfo = new UserInfo({
 });
 
 // Pop-up de imagem
-const popupWithImage = new PopupWithImage(".popup_type_image");
+const popupWithImage = new PopupWithImage(".cards__card-image-inner");
 popupWithImage.setEventListeners();
 
 // Função para abrir o pop-up de imagem
