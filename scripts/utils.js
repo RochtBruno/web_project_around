@@ -15,12 +15,10 @@ export function setupModalHandlers({ triggerSelector, modalSelector, closeSelect
 	const closeButton = document.querySelector(closeSelector);
 	const overlay = document.querySelector(overlaySelector);
 
-	// Ao clicar no gatilho, abre a modal
 	if (trigger) {
 	  trigger.addEventListener('click', () => openModal(modal, overlay));
 	}
 
-	// Ao clicar no botão de fechar, fecha a modal
 	if (closeButton) {
 	  closeButton.addEventListener('click', () => closeModal(modal, overlay));
 	}
