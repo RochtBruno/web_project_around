@@ -47,6 +47,9 @@ const addCardFormElement = document.querySelector(".profile__modal-add-form");
 const editProfileValidator = new FormValidator(validationConfig, editProfileFormElement);
 const addCardValidator = new FormValidator(validationConfig, addCardFormElement);
 
+const editButton = document.querySelector(".profile__infos-edit");
+const addButton = document.querySelector(".profile__button-rectangle");
+
 editProfileValidator.enableValidation();
 addCardValidator.enableValidation();
 
@@ -89,7 +92,7 @@ const profilePopup = new PopupWithForm(".profile__modal", (formData) => {
 });
 profilePopup.setEventListeners();
 
-document.querySelector(".profile__infos-edit").addEventListener("click", () => {
+editButton.addEventListener("click", () => {
   const currentUser = userInfo.getUserInfo();
   document.querySelector("#nameInput").value = currentUser.name;
   document.querySelector("#jobInput").value = currentUser.job;
@@ -105,6 +108,6 @@ const addCardPopup = new PopupWithForm(".profile__modal-add", (formData) => {
 });
 addCardPopup.setEventListeners();
 
-document.querySelector(".profile__button-rectangle").addEventListener("click", () => {
+addButton.addEventListener("click", () => {
   addCardPopup.open();
 });

@@ -138,7 +138,7 @@
 	cursor: pointer;
 	position: absolute;
 	top: 40%;
-	right: 8%;
+	right: 0;
 }
 
 .profile__infos-edit:hover{
@@ -156,11 +156,15 @@
 
   .profile__infos {
 	position: relative;
-	width: 415px;
+	width: 450px;
 	margin-left: 30px;
   }
 
   .profile__infos-title {
+	width: 95%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 	font-size: 42px;
 	font-weight: 500;
 	line-height: 48px;
@@ -236,6 +240,8 @@
 	}
 	.profile__infos-title {
 		font-size: 22px;
+		width: 80%;
+		margin-left: 15px;
 	  }
 	.profile__infos-edit{
 		top: 30px;
