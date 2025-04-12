@@ -4,6 +4,9 @@ import PopupWithImage from "./PopupWithImage.js";
 import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
 import Section from "./Section.js";
+import Api from "./Api.js";
+import { ownerId }from "./utils.js"
+
 
 const initialCards = [
   {
@@ -39,6 +42,16 @@ const validationConfig = {
   inputErrorClass: "input-error",
   errorClass: "error-message",
 };
+
+const api = new Api({
+  baseUrl: "https://around-api.pt-br.tripleten-services.com/v1",
+  headers: {
+    authorization: "6776f0e2-04cc-4374-8e7e-91a09af225f0",
+    "Content-Type": "application/json",
+  },
+});
+
+
 
 const editProfileFormElement = document.querySelector(".profile__modal-form");
 const addCardFormElement = document.querySelector(".profile__modal-add-form");
@@ -76,17 +89,31 @@ function createCard(data) {
   return card.getCardElement();
 }
 
-const cardsSection = new Section(
-  {
-    items: initialCards,
-    renderer: (item) => {
-      const cardElement = createCard(item);
-      cardsSection.addItem(cardElement);
+let cardsSection;
+
+api.getInitialCards().then(res => {
+  console.log("response-> ",res)
+  if (res.status !== 200) {
+    return Promise.reject("Erro da requisição-> " ,res.status)
+  }return res.json()
+}).then(cards => {
+  console.log("cards-> ",cards)
+  const cardsSection = new Section(
+    {
+      items: cards,
+      renderer: (item) => {
+        const cardElement = createCard(item);
+        cardsSection.addItem(cardElement);
+      },
     },
-  },
-  ".cards"
-);
-cardsSection.renderItems();
+    ".cards"
+  );
+  cardsSection.renderItems();
+}).catch(error => {
+  console.log("[GET] /cards-> ",error)
+})
+
+
 
 const profilePopup = new PopupWithForm(".profile__modal", (formData) => {
   userInfo.setUserInfo({ name: formData.name, job: formData.job });
@@ -101,11 +128,53 @@ editButton.addEventListener("click", () => {
   profilePopup.open();
 });
 
+// api.createCard({
+//     "isLiked": false,
+//     "name": "",
+//     "link": "",
+//     "owner": ownerId,
+//     "createdAt": new Date()
+// }).then(res => {
+//   console.log("response-> ",res)
+//   if (res.status !== 200) {
+//     return Promise.reject("Erro da requisição-> " ,res.status)
+//   }return res.json()
+// }).then(users => {
+//   console.log("users",users)
+//   ownerUser = users.find(user => user.id == ownerUser)
+//   console.log(ownerUser)
+// }).catch(error => {
+//   console.log("[GET] /cards-> ",error)
+// })
+
 const addCardPopup = new PopupWithForm(".profile__modal-add", (formData) => {
-  const newCardData = { name: formData.title, link: formData.link };
-  const cardElement = createCard(newCardData);
-  cardsSection.addItem(cardElement);
-  addCardPopup.close();
+  // Adiciona as propriedades extras ao novo card
+  const newCardData = {
+    name: formData.title,
+    link: formData.link,
+    isLiked: false,
+    owner: ownerId,
+    createdAt: new Date(),
+  };
+
+  // Chamada à API para criar o card
+  api.createCard(newCardData)
+    .then((res) => {
+      if (res.status !== 201) {
+        return Promise.reject(`Erro da requisição: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((createdCard) => {
+      // Renderiza o card na interface após a criação bem-sucedida
+      const cardElement = createCard(createdCard);
+      cardsSection.addItem(cardElement);
+      addCardPopup.close();
+      console.log(createdCard)
+    })
+    .catch((error) => {
+      console.error("[POST] /cards ->", error);
+    });
 });
 addCardPopup.setEventListeners();
 

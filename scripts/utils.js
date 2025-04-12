@@ -1,5 +1,7 @@
 // utils.js
 
+export const ownerId = "22f4bd5bf1df5dcb2823c979";
+
 export function openModal(modal, overlay) {
 	modal.classList.add('opened');
 	overlay.classList.add('opened');
