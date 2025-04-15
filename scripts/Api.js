@@ -9,6 +9,7 @@ export default class Api {
 	  headers: this._headers
 	})
   }
+
   createCard(card){
 	return fetch(`${this._baseUrl}/cards`, {
 		headers: this._headers,
@@ -16,7 +17,13 @@ export default class Api {
 		body: JSON.stringify(card)
 	  })
   }
-  // outros métodos para trabalhar com a API
+
+  deleteCard(cardId){
+	return fetch(`${this._baseUrl}/cards/${cardId}`,{
+		headers: this._headers,
+		method: "DELETE"
+	})
+  }
 }
 
 

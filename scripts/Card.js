@@ -1,9 +1,14 @@
 export class Card {
-	constructor({ name, link }, templateSelector, handleCardClick) {
-	  this._name = name;
-	  this._link = link;
-	  this._templateSelector = templateSelector;
-	  this._handleCardClick = handleCardClick;
+	constructor({ name, link, owner, _id, deleteCard, canDelete}, templateSelector, handleCardClick) {
+		console.log("ID recebido pela classe Card:", _id);
+		this._name = name;
+		this._link = link;
+		this._owner = owner;
+		this._id = _id;
+		this._deleteCard = deleteCard
+		this._canDelete = canDelete;
+		this._templateSelector = templateSelector;
+		this._handleCardClick = handleCardClick;
 	}
 
 	_getTemplate() {
@@ -33,16 +38,18 @@ export class Card {
 	}
 
 	_handleDelete() {
-	  this._cardElement.remove();
+		this._deleteCard(this)
+		return;
 	}
 
 	getCardElement() {
-	  this._cardElement = this._getTemplate();
-	  this._cardElement.querySelector(".cards__card-title").textContent = this._name;
-	  this._cardElement.querySelector(".cards__card-image-inner").src = this._link;
-	  this._cardElement.querySelector(".cards__card-image-inner").alt = `Imagem de ${this._name}`;
+		this._cardElement = this._getTemplate();
+		this._cardElement.querySelector(".cards__card-title").textContent = this._name;
+		this._cardElement.querySelector(".cards__card-image-inner").src = this._link;
+		this._cardElement.querySelector(".cards__card-image-inner").alt = `Imagem de ${this._name}`;
 
-	  this._setEventListeners();
-	  return this._cardElement;
+		this._setEventListeners();
+		this._element = this._cardElement;
+		return this._cardElement;
 	}
   }

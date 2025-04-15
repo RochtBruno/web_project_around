@@ -52,7 +52,6 @@ const api = new Api({
 });
 
 
-
 const editProfileFormElement = document.querySelector(".profile__modal-form");
 const addCardFormElement = document.querySelector(".profile__modal-add-form");
 
@@ -83,11 +82,19 @@ popupWithImage.setEventListeners();
 function handleCardClick({ link, name }) {
   popupWithImage.open({ link, title: name });
 }
-
 function createCard(data) {
-  const card = new Card(data, "#card-template", handleCardClick);
-  return card.getCardElement();
-}
+	console.log("Dados passados para a classe Card:", data);
+	const card = new Card(
+	  {
+		...data,
+		deleteCard: (card) => deleteCard(card),
+		canDelete: data.owner === ownerId,
+	  },
+	  "#card-template",
+	  handleCardClick
+	);
+	return card.getCardElement();
+  }
 
 let cardsSection;
 
@@ -98,7 +105,7 @@ api.getInitialCards().then(res => {
   }return res.json()
 }).then(cards => {
   console.log("cards-> ",cards)
-  const cardsSection = new Section(
+  cardsSection = new Section(
     {
       items: cards,
       renderer: (item) => {
@@ -128,27 +135,9 @@ editButton.addEventListener("click", () => {
   profilePopup.open();
 });
 
-// api.createCard({
-//     "isLiked": false,
-//     "name": "",
-//     "link": "",
-//     "owner": ownerId,
-//     "createdAt": new Date()
-// }).then(res => {
-//   console.log("response-> ",res)
-//   if (res.status !== 200) {
-//     return Promise.reject("Erro da requisição-> " ,res.status)
-//   }return res.json()
-// }).then(users => {
-//   console.log("users",users)
-//   ownerUser = users.find(user => user.id == ownerUser)
-//   console.log(ownerUser)
-// }).catch(error => {
-//   console.log("[GET] /cards-> ",error)
-// })
+/////////////////////ADD CARD////////////////////////////////////////////
 
 const addCardPopup = new PopupWithForm(".profile__modal-add", (formData) => {
-  // Adiciona as propriedades extras ao novo card
   const newCardData = {
     name: formData.title,
     link: formData.link,
@@ -157,7 +146,6 @@ const addCardPopup = new PopupWithForm(".profile__modal-add", (formData) => {
     createdAt: new Date(),
   };
 
-  // Chamada à API para criar o card
   api.createCard(newCardData)
     .then((res) => {
       if (res.status !== 201) {
@@ -166,11 +154,10 @@ const addCardPopup = new PopupWithForm(".profile__modal-add", (formData) => {
       return res.json();
     })
     .then((createdCard) => {
-      // Renderiza o card na interface após a criação bem-sucedida
-      const cardElement = createCard(createdCard);
-      cardsSection.addItem(cardElement);
-      addCardPopup.close();
-      console.log(createdCard)
+		console.log("Resposta da API ao criar o cartão:", createdCard);
+		const cardElement = createCard(createdCard);
+		cardsSection.addItem(cardElement);
+		addCardPopup.close();
     })
     .catch((error) => {
       console.error("[POST] /cards ->", error);
@@ -181,3 +168,22 @@ addCardPopup.setEventListeners();
 addButton.addEventListener("click", () => {
   addCardPopup.open();
 });
+
+///////////////////////DELETE CARD//////////////////////////////////////
+
+function deleteCard(card) {
+	if (!card._canDelete) {
+	  console.error("Você não é dono do cartão e não pode deletá-lo.");
+	  return;
+	}
+
+	api.deleteCard(card._id)
+	  .then(() => {
+		card._element.remove();
+		card._element = null;
+		console.log("Cartão deletado com sucesso.");
+	  })
+	  .catch((err) => {
+		console.error("Erro ao deletar o cartão:", err);
+	  });
+  }
