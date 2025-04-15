@@ -105,9 +105,54 @@
 	opacity: 0.6;
 }
 
+
+.popup_type_confirm .popup__content {
+	background-color: #ffffff;
+	width: 90%;
+	max-width: 430px;
+	border-radius: 10px;
+	padding: 20px 40px;
+	margin-bottom: 20px;
+  }
+
+  .popup_type_confirm .popup__title_confirm {
+	font-size: 24px;
+	font-weight: 900;
+	margin-bottom: 50px;
+  }
+
+  .popup_type_confirm .popup__button_confirm {
+	width: 100%;
+	background-color: #000000;
+	color: #ffffff;
+	font-size: 18px;
+	border: none;
+	cursor: pointer;
+	border-radius: 2px;
+	padding: 10px 0;
+	border-radius: 2px;
+  }
+
+  .popup_type_confirm .popup__button_confirm:hover {
+	opacity: 0.8;
+  }
+
+  .popup_type_confirm .popup__close_confirm {
+	position: absolute;
+	top: -40px;
+	right: -40px;
+	cursor: pointer;
+  }
+
 @media screen and (max-width: 980px){
 	.cards{
 		justify-content: center;
 		padding: 0 2%;
 	}
+	.popup_type_confirm .popup__content {
+		width: 70%;
+	  }
+	.popup_type_confirm .popup__close_confirm {
+		right: -0px;
+	  }
 }

@@ -5,6 +5,7 @@ import PopupWithForm from "./PopupWithForm.js";
 import UserInfo from "./UserInfo.js";
 import Section from "./Section.js";
 import Api from "./Api.js";
+import PopupWithConfirmation from "./PopupWithConfirmation.js";
 import { ownerId }from "./utils.js"
 
 
@@ -76,12 +77,13 @@ const userInfo = new UserInfo({
 });
 
 // -------------------------
-const popupWithImage = new PopupWithImage(".popup");
+const popupWithImage = new PopupWithImage(".popup_type_image");
 popupWithImage.setEventListeners();
 
 function handleCardClick({ link, name }) {
   popupWithImage.open({ link, title: name });
 }
+
 function createCard(data) {
 	console.log("Dados passados para a classe Card:", data);
 	const card = new Card(
@@ -91,7 +93,8 @@ function createCard(data) {
 		canDelete: data.owner === ownerId,
 	  },
 	  "#card-template",
-	  handleCardClick
+	  handleCardClick,
+	  deleteConfirmationPopup
 	);
 	return card.getCardElement();
   }
@@ -171,6 +174,9 @@ addButton.addEventListener("click", () => {
 
 ///////////////////////DELETE CARD//////////////////////////////////////
 
+const deleteConfirmationPopup = new PopupWithConfirmation(".popup_type_confirm");
+deleteConfirmationPopup.setEventListeners();
+
 function deleteCard(card) {
 	if (!card._canDelete) {
 	  console.error("Você não é dono do cartão e não pode deletá-lo.");
@@ -182,8 +188,11 @@ function deleteCard(card) {
 		card._element.remove();
 		card._element = null;
 		console.log("Cartão deletado com sucesso.");
+		deleteConfirmationPopup.close();
 	  })
 	  .catch((err) => {
 		console.error("Erro ao deletar o cartão:", err);
 	  });
   }
+
+

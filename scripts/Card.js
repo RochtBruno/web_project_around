@@ -1,6 +1,5 @@
 export class Card {
-	constructor({ name, link, owner, _id, deleteCard, canDelete}, templateSelector, handleCardClick) {
-		console.log("ID recebido pela classe Card:", _id);
+	constructor({ name, link, owner, _id, deleteCard, canDelete}, templateSelector, handleCardClick, deleteConfirmationPopup) {
 		this._name = name;
 		this._link = link;
 		this._owner = owner;
@@ -9,6 +8,7 @@ export class Card {
 		this._canDelete = canDelete;
 		this._templateSelector = templateSelector;
 		this._handleCardClick = handleCardClick;
+		this._deleteConfirmationPopup = deleteConfirmationPopup;
 	}
 
 	_getTemplate() {
@@ -38,9 +38,11 @@ export class Card {
 	}
 
 	_handleDelete() {
-		this._deleteCard(this)
-		return;
-	}
+		this._deleteConfirmationPopup.setSubmitAction(() => {
+		  this._deleteCard(this);
+		});
+		this._deleteConfirmationPopup.open();
+	  }
 
 	getCardElement() {
 		this._cardElement = this._getTemplate();
