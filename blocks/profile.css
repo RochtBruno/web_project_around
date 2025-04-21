@@ -144,22 +144,49 @@
 .profile__infos-edit:hover{
 	opacity: 0.6;
 }
+
 .profile__image {
-	margin-top: 30px;
-}
+	position: relative;
+	cursor: pointer;
+  }
 
   .profile__image img {
 	object-fit: cover;
 	width: 120px;
 	height: 120px;
 	border-radius: 50%;
+	transition: opacity 0.3s ease;
   }
 
-  .profile__infos {
+  .profile__image img:hover {
+	opacity: 0.6;
+  }
+
+  .profile__image::after {
+	content: '';
+	width: 26px;
+	height: 26px;
+	background-image: url('../images/edit-vector.svg');
+	background-position: center;
+	background-repeat: no-repeat;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 0.3s ease;
+  }
+
+.profile__image:hover::after {
+	opacity: 1;
+}
+
+.profile__infos {
 	position: relative;
 	width: 450px;
 	margin-left: 30px;
-  }
+}
 
   .profile__infos-title {
 	width: 95%;

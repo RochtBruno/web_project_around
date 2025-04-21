@@ -83,7 +83,6 @@ function handleCardClick({ link, name }) {
 }
 
 function createCard(data) {
-  console.log("Dados passados para a classe Card:", data);
   const card = new Card(
     {
       ...data,
