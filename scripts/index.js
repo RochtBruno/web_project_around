@@ -172,6 +172,46 @@ editButton.addEventListener("click", () => {
   document.querySelector("#jobInput").value = currentUser.job;
   profilePopup.open();
 });
+///////////////////////UPDATE AVATAR ////////////////////////////////////
+
+const avatarPopup = document.querySelector(".popup_type_avatar");
+const avatarForm = avatarPopup.querySelector(".popup__form_avatar");
+const avatarInput = avatarPopup.querySelector("#avatarInput");
+const avatarCloseButton = avatarPopup.querySelector(".popup__close_avatar");
+const avatarElement = document.querySelector(".profile__image img");
+
+function openAvatarPopup() {
+  avatarPopup.style.display = "flex"; 
+}
+
+function closeAvatarPopup() {
+  avatarPopup.style.display = "none"; 
+}
+
+avatarElement.addEventListener("click", openAvatarPopup);
+
+avatarCloseButton.addEventListener("click", closeAvatarPopup);
+
+avatarForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const avatarLink = avatarInput.value;
+
+  api.updateAvatar(avatarLink)
+    .then((res) => {
+      if (res.status !== 200) {
+        return Promise.reject("Erro ao atualizar o avatar: " + res.status);
+      }
+      return res.json();
+    })
+    .then((data) => {
+      avatarElement.src = data.avatar;
+      closeAvatarPopup();
+    })
+    .catch((err) => {
+      console.error("[PATCH] /users/me/avatar ->", err);
+    });
+});
 
 /////////////////////ADD CARD////////////////////////////////////////////
 

@@ -21,6 +21,16 @@ export default class Api {
 	})
   }
 
+  updateAvatar(avatarLink){
+	return fetch(`${this._baseUrl}/users/me/avatar`,{
+		headers: this._headers,
+		method: "PATCH",
+		body: JSON.stringify({
+			avatar:avatarLink
+		})
+	})
+  }
+
   getInitialCards() {
 	return fetch(`${this._baseUrl}/cards`, {
 	  headers: this._headers
