@@ -124,6 +124,27 @@ api.getInitialCards().then(res => {
 })
 
 
+///////////////////////////PROFILE///////////////////////////////////
+
+const profileName = document.querySelector(".profile__infos-title");
+const profileAbout = document.querySelector(".profile__infos-description");
+const profileImage = document.querySelector(".profile__image img")
+
+api.getUser()
+  .then(res => {
+    if(res.status !== 200){
+      return Promise.reject("Status da requisição inválido "+ res.status)
+    }
+    return res.json()
+  }).then(data => {
+    profileName.textContent = data.name;
+    profileAbout.textContent = data.about;
+    profileImage.src = data.avatar;
+    console.log(data)
+  }).catch(err => {
+    console.log("[GET] - users/me -> " +err)
+  })
+
 
 const profilePopup = new PopupWithForm(".profile__modal", (formData) => {
   userInfo.setUserInfo({ name: formData.name, job: formData.job });
