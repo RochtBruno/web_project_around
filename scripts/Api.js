@@ -10,6 +10,17 @@ export default class Api {
 	})
   }
 
+  updateUser(name,about){
+	return fetch(`${this._baseUrl}/users/me`,{
+		headers: this._headers,
+		method: "PATCH",
+		body: JSON.stringify({
+			name: name,
+			about: about
+		})
+	})
+  }
+
   getInitialCards() {
 	return fetch(`${this._baseUrl}/cards`, {
 	  headers: this._headers

@@ -6,8 +6,7 @@ import UserInfo from "./UserInfo.js";
 import Section from "./Section.js";
 import Api from "./Api.js";
 import PopupWithConfirmation from "./PopupWithConfirmation.js";
-import { ownerId }from "./utils.js"
-
+import { ownerId } from "./utils.js";
 
 const initialCards = [
   {
@@ -52,7 +51,6 @@ const api = new Api({
   },
 });
 
-
 const editProfileFormElement = document.querySelector(".profile__modal-form");
 const addCardFormElement = document.querySelector(".profile__modal-add-form");
 
@@ -85,70 +83,87 @@ function handleCardClick({ link, name }) {
 }
 
 function createCard(data) {
-	console.log("Dados passados para a classe Card:", data);
-	const card = new Card(
-	  {
-		...data,
-		deleteCard: (card) => deleteCard(card),
-		canDelete: data.owner === ownerId,
-	  },
-	  "#card-template",
-	  handleCardClick,
-	  deleteConfirmationPopup
-	);
-	return card.getCardElement();
-  }
+  console.log("Dados passados para a classe Card:", data);
+  const card = new Card(
+    {
+      ...data,
+      deleteCard: (card) => deleteCard(card),
+      canDelete: data.owner === ownerId,
+    },
+    "#card-template",
+    handleCardClick,
+    deleteConfirmationPopup
+  );
+  return card.getCardElement();
+}
 
 let cardsSection;
 
-api.getInitialCards().then(res => {
-  console.log("response-> ",res)
-  if (res.status !== 200) {
-    return Promise.reject("Erro da requisição-> " ,res.status)
-  }return res.json()
-}).then(cards => {
-  console.log("cards-> ",cards)
-  cardsSection = new Section(
-    {
-      items: cards,
-      renderer: (item) => {
-        const cardElement = createCard(item);
-        cardsSection.addItem(cardElement);
+api
+  .getInitialCards()
+  .then((res) => {
+    console.log("response-> ", res);
+    if (res.status !== 200) {
+      return Promise.reject("Erro da requisição-> ", res.status);
+    }
+    return res.json();
+  })
+  .then((cards) => {
+    console.log("cards-> ", cards);
+    cardsSection = new Section(
+      {
+        items: cards,
+        renderer: (item) => {
+          const cardElement = createCard(item);
+          cardsSection.addItem(cardElement);
+        },
       },
-    },
-    ".cards"
-  );
-  cardsSection.renderItems();
-}).catch(error => {
-  console.log("[GET] /cards-> ",error)
-})
-
+      ".cards"
+    );
+    cardsSection.renderItems();
+  })
+  .catch((error) => {
+    console.log("[GET] /cards-> ", error);
+  });
 
 ///////////////////////////PROFILE///////////////////////////////////
 
 const profileName = document.querySelector(".profile__infos-title");
 const profileAbout = document.querySelector(".profile__infos-description");
-const profileImage = document.querySelector(".profile__image img")
+const profileImage = document.querySelector(".profile__image img");
 
 api.getUser()
-  .then(res => {
-    if(res.status !== 200){
-      return Promise.reject("Status da requisição inválido "+ res.status)
+  .then((res) => {
+    if (res.status !== 200) {
+      return Promise.reject("Status da requisição inválido " + res.status);
     }
-    return res.json()
-  }).then(data => {
+    return res.json();
+  })
+  .then((data) => {
     profileName.textContent = data.name;
     profileAbout.textContent = data.about;
     profileImage.src = data.avatar;
-    console.log(data)
-  }).catch(err => {
-    console.log("[GET] - users/me -> " +err)
+    console.log(data);
   })
-
+  .catch((err) => {
+    console.log("[GET] - users/me -> " + err);
+  });
 
 const profilePopup = new PopupWithForm(".profile__modal", (formData) => {
-  userInfo.setUserInfo({ name: formData.name, job: formData.job });
-  profilePopup.close();
+  api.updateUser(formData.name, formData.job)
+  .then((res) =>{
+    if(res.status !== 200){
+      return Promise.reject("Erro ao atualizar o perfil-> "+ res.status)
+    }
+    return res.json()
+  })
+  .then((updateData) => {
+    userInfo.setUserInfo({name: updateData.name, job: updateData.about})
+    profilePopup.close()
+  })
+  .catch((err) => {
+    console.log("[PATCH] /users/me -> ",err)
+  })
 });
 profilePopup.setEventListeners();
 
@@ -170,7 +185,8 @@ const addCardPopup = new PopupWithForm(".profile__modal-add", (formData) => {
     createdAt: new Date(),
   };
 
-  api.createCard(newCardData)
+  api
+    .createCard(newCardData)
     .then((res) => {
       if (res.status !== 201) {
         return Promise.reject(`Erro da requisição: ${res.status}`);
@@ -178,10 +194,10 @@ const addCardPopup = new PopupWithForm(".profile__modal-add", (formData) => {
       return res.json();
     })
     .then((createdCard) => {
-		console.log("Resposta da API ao criar o cartão:", createdCard);
-		const cardElement = createCard(createdCard);
-		cardsSection.addItem(cardElement);
-		addCardPopup.close();
+      console.log("Resposta da API ao criar o cartão:", createdCard);
+      const cardElement = createCard(createdCard);
+      cardsSection.addItem(cardElement);
+      addCardPopup.close();
     })
     .catch((error) => {
       console.error("[POST] /cards ->", error);
@@ -195,25 +211,26 @@ addButton.addEventListener("click", () => {
 
 ///////////////////////DELETE CARD//////////////////////////////////////
 
-const deleteConfirmationPopup = new PopupWithConfirmation(".popup_type_confirm");
+const deleteConfirmationPopup = new PopupWithConfirmation(
+  ".popup_type_confirm"
+);
 deleteConfirmationPopup.setEventListeners();
 
 function deleteCard(card) {
-	if (!card._canDelete) {
-	  console.error("Você não é dono do cartão e não pode deletá-lo.");
-	  return;
-	}
-
-	api.deleteCard(card._id)
-	  .then(() => {
-		card._element.remove();
-		card._element = null;
-		console.log("Cartão deletado com sucesso.");
-		deleteConfirmationPopup.close();
-	  })
-	  .catch((err) => {
-		console.error("Erro ao deletar o cartão:", err);
-	  });
+  if (!card._canDelete) {
+    console.error("Você não é dono do cartão e não pode deletá-lo.");
+    return;
   }
 
-
+  api
+    .deleteCard(card._id)
+    .then(() => {
+      card._element.remove();
+      card._element = null;
+      console.log("Cartão deletado com sucesso.");
+      deleteConfirmationPopup.close();
+    })
+    .catch((err) => {
+      console.error("Erro ao deletar o cartão:", err);
+    });
+}
