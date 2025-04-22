@@ -8,32 +8,32 @@ import Api from "./Api.js";
 import PopupWithConfirmation from "./PopupWithConfirmation.js";
 import { ownerId } from "./utils.js";
 
-const initialCards = [
-  {
-    name: "Vale de Yosemite",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-  },
-  {
-    name: "Lago Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-  },
-  {
-    name: "Montanhas Carecas",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
-  },
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
-  },
-  {
-    name: "Parque Nacional da Vanoise ",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
-  },
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
-  },
-];
+// const initialCards = [
+//   {
+//     name: "Vale de Yosemite",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
+//   },
+//   {
+//     name: "Lago Louise",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
+//   },
+//   {
+//     name: "Montanhas Carecas",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
+//   },
+//   {
+//     name: "Latemar",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
+//   },
+//   {
+//     name: "Parque Nacional da Vanoise ",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
+//   },
+//   {
+//     name: "Lago di Braies",
+//     link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
+//   },
+// ];
 
 const validationConfig = {
   inputSelector: ".profile__modal-input",
@@ -149,6 +149,7 @@ api.getUser()
   });
 
 const profilePopup = new PopupWithForm(".profile__modal", (formData) => {
+  showLoading()
   api.updateUser(formData.name, formData.job)
   .then((res) =>{
     if(res.status !== 200){
@@ -162,6 +163,9 @@ const profilePopup = new PopupWithForm(".profile__modal", (formData) => {
   })
   .catch((err) => {
     console.log("[PATCH] /users/me -> ",err)
+  })
+  .finally(() => {
+    hideLoading()
   })
 });
 profilePopup.setEventListeners();
@@ -196,7 +200,7 @@ avatarForm.addEventListener("submit", (event) => {
   event.preventDefault();
 
   const avatarLink = avatarInput.value;
-
+  showLoading();
   api.updateAvatar(avatarLink)
     .then((res) => {
       if (res.status !== 200) {
@@ -210,7 +214,10 @@ avatarForm.addEventListener("submit", (event) => {
     })
     .catch((err) => {
       console.error("[PATCH] /users/me/avatar ->", err);
-    });
+    })
+    .finally(()=>{
+      hideLoading();
+    })
 });
 
 /////////////////////ADD CARD////////////////////////////////////////////
@@ -223,24 +230,28 @@ const addCardPopup = new PopupWithForm(".profile__modal-add", (formData) => {
     owner: ownerId,
     createdAt: new Date(),
   };
-
-  api
-    .createCard(newCardData)
-    .then((res) => {
-      if (res.status !== 201) {
-        return Promise.reject(`Erro da requisição: ${res.status}`);
-      }
-      return res.json();
-    })
-    .then((createdCard) => {
-      console.log("Resposta da API ao criar o cartão:", createdCard);
-      const cardElement = createCard(createdCard);
-      cardsSection.addItem(cardElement);
-      addCardPopup.close();
-    })
-    .catch((error) => {
-      console.error("[POST] /cards ->", error);
-    });
+  showLoading();
+    api
+      .createCard(newCardData)
+      .then((res) => {
+        if (res.status !== 201) {
+          return Promise.reject(`Erro da requisição: ${res.status}`);
+        }
+        return res.json();
+      })
+      .then((createdCard) => {
+        console.log("Resposta da API ao criar o cartão:", createdCard);
+        const cardElement = createCard(createdCard);
+        cardsSection.addItem(cardElement);
+        addCardPopup.close();
+      })
+      .catch((error) => {
+        console.error("[POST] /cards ->", error);
+      })
+      .finally(() => {
+        // Ocultar o loading após o término da requisição
+        hideLoading();
+      }); // Simula um atraso de 3 segundos
 });
 addCardPopup.setEventListeners();
 
@@ -260,10 +271,11 @@ function deleteCard(card) {
     console.error("Você não é dono do cartão e não pode deletá-lo.");
     return;
   }
-
+  showLoading()
   api
     .deleteCard(card._id)
     .then(() => {
+
       card._element.remove();
       card._element = null;
       console.log("Cartão deletado com sucesso.");
@@ -271,5 +283,25 @@ function deleteCard(card) {
     })
     .catch((err) => {
       console.error("Erro ao deletar o cartão:", err);
-    });
+    })
+    .finally(() => {
+      hideLoading()
+    })
+}
+
+//////////////////////////LOADING UX/////////////////////
+
+const loadingSpinner = document.getElementById("loadingSpinner");
+let loadingCount = 0;
+
+function showLoading() {
+  loadingCount++;
+  loadingSpinner.style.display = "block";
+}
+
+function hideLoading() {
+  loadingCount--;
+  if (loadingCount === 0) {
+    loadingSpinner.style.display = "none";
+  }
 }
