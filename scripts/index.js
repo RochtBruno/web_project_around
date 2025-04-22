@@ -86,12 +86,14 @@ function createCard(data) {
   const card = new Card(
     {
       ...data,
+      isLiked: data.isLiked,
       deleteCard: (card) => deleteCard(card),
       canDelete: data.owner === ownerId,
     },
     "#card-template",
     handleCardClick,
-    deleteConfirmationPopup
+    deleteConfirmationPopup,
+    api
   );
   return card.getCardElement();
 }
@@ -108,7 +110,6 @@ api
     return res.json();
   })
   .then((cards) => {
-    console.log("cards-> ", cards);
     cardsSection = new Section(
       {
         items: cards,
@@ -120,6 +121,8 @@ api
       ".cards"
     );
     cardsSection.renderItems();
+    console.log("Cartões retornados pela API:", cards);
+    return cards
   })
   .catch((error) => {
     console.log("[GET] /cards-> ", error);
