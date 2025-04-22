@@ -7,18 +7,18 @@
 	<meta name="keywords" content="viagens, experiências, turismo">
 	<meta name="description" content="Página sobre minhas viagens e experiências">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="./pages/index.css">
+	<link rel="stylesheet" href="./page/index.css">
 	<title>Around Us</title>
 </head>
 <body>
 	<div class="page">
 		<header class="header">
-			<img class="header__logo" src="images/logo.png" alt="logo do website">
+			<img class="header__logo" src="../images/logo.png" alt="logo do website">
 		</header>
 		<section class="profile">
 			<div class="profile__overlay"></div>
 			<div class="profile__modal">
-				<img class="profile__modal-close" src="images/close-modal.png" alt="botão de fechar modal">
+				<img class="profile__modal-close" src="../images/close-modal.png" alt="botão de fechar modal">
 				<h2 class="profile__modal-title">Editar perfil</h2>
 				<form class="profile__modal-form">
 					<input name="name" type="text" id="nameInput" class="profile__modal-input" placeholder="Nome" required >
@@ -28,7 +28,7 @@
 			</div>
 			<div class="popup popup_type_avatar" >
 				<div class="popup__content">
-				  <img class="popup__close popup__close_avatar" src="images/close-modal.png" alt="botão de fechar modal">
+				  <img class="popup__close popup__close_avatar" src="../images/close-modal.png" alt="botão de fechar modal">
 				  <h3 class="popup__title popup__title_avatar">Atualizar a foto do perfil</h3>
 				  <form class="popup__form popup__form_avatar">
 					<input
@@ -50,11 +50,11 @@
 				<h2 class="profile__infos-title"></h2>
 				<p class="profile__infos-description"></p>
 				<div class="profile__infos-edit">
-					<img src="images/edit.png" alt="botão de editar perfil">
+					<img src="../images/edit.png" alt="botão de editar perfil">
 				</div>
 			</div>
 			<div class="profile__modal-add">
-				<img class="profile__modal-add-close" src="images/close-modal.png" alt="botão de fechar modal">
+				<img class="profile__modal-add-close" src="../images/close-modal.png" alt="botão de fechar modal">
 				<h2 class="profile__modal-add-title">Novo local</h2>
 				<form class="profile__modal-add-form">
 					<input type="text" name="title" id="titleInput" class="profile__modal-input" placeholder="Título" required >
@@ -64,7 +64,7 @@
 			</div>
 			<div class="profile__button">
 				<div class="profile__button-rectangle">
-					<img src="images/add.png" alt="botão de adicionar card">
+					<img src="../images/add.png" alt="botão de adicionar card">
 				</div>
 			</div>
 		</section>
@@ -74,19 +74,19 @@
 		<div class="loading-spinner" id="loadingSpinner"></div>
 		<template id="card-template">
 			<div class="cards__card">
-			  <img class="cards__card-delete" src="images/Trash.svg" alt="Deletar">
+			  <img class="cards__card-delete" src="../images/Trash.svg" alt="Deletar">
 			  <div class="cards__card-image">
 				<img class="cards__card-image-inner" src="#" alt="Imagem do card">
 			  </div>
 			  <div class="cards__card-infos">
 				<h2 class="cards__card-title"></h2>
-				<img class="cards__card-like" src="images/Group.svg" alt="Curtir">
+				<img class="cards__card-like" src="../images/Group.svg" alt="Curtir">
 			  </div>
 			</div>
 		  </template>
 		  <div class="popup popup_type_confirm">
 			<div class="popup__content">
-			  <img class="popup__close popup__close_confirm" src="images/close-modal.png" alt="botão de fechar modal">
+			  <img class="popup__close popup__close_confirm" src="../images/close-modal.png" alt="botão de fechar modal">
 			  <h3 class="popup__title popup__title_confirm">Tem certeza?</h3>
 			  <button type="button" class="popup__button popup__button_confirm">Sim</button>
 			</div>
@@ -95,7 +95,7 @@
 			<div class="popup__content">
 			  <img class="popup__image" src="" alt="Imagem Ampliada">
 			  <p class="popup__caption"></p>
-			  <img src="images/close-modal.png" class="popup__close" alt="Fechar">
+			  <img src="../images/close-modal.png" class="popup__close" alt="Fechar">
 			</div>
 		</div>
 		<footer class="footer">
@@ -104,6 +104,6 @@
 	</div>
 
 
-	<script type="module" src="scripts/index.js"></script>
+	<script type="module" src="page/index.js"></script>
 </body>
 </html>
