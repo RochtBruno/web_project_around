@@ -183,7 +183,7 @@
 }
 
 .popup_type_avatar {
-	display: none; 
+	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -194,7 +194,7 @@
 	justify-content: center;
 	z-index: 1000;
   }
-  
+
   .popup_type_avatar .popup__content {
 	background-color: #ffffff;
 	width: 90%;
@@ -215,13 +215,13 @@
   .popup_type_avatar .popup__input:focus{
 	outline: none;
   }
-  
+
   .popup_type_avatar .popup__title_avatar {
 	font-size: 24px;
 	font-weight: 900;
 	margin-bottom: 50px;
   }
-  
+
   .popup_type_avatar .popup__button_avatar {
 	width: 100%;
 	background-color: #000000;
@@ -232,11 +232,11 @@
 	border-radius: 2px;
 	padding: 10px 0;
   }
-  
+
   .popup_type_avatar .popup__button_avatar:hover {
 	opacity: 0.8;
   }
-  
+
   .popup_type_avatar .popup__close_avatar {
 	position: absolute;
 	top: -40px;
@@ -250,7 +250,7 @@
 	margin-left: 30px;
 }
 
-  .profile__infos-title {
+.profile__infos-title {
 	width: 95%;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -260,17 +260,17 @@
 	line-height: 48px;
 	color: #ffffff;
 	margin-bottom: 5px;
-  }
+}
 
-  .profile__infos-description {
+.profile__infos-description {
 	font-size: 18px;
 	font-weight: 400;
 	line-height: 22px;
 	color: #ffffff;
 	margin-top: 0;
-  }
+}
 
-  .profile__infos-icon {
+.profile__infos-icon {
 	color: #ffffff;
 	font-size: 28px;
 	position: absolute;
@@ -332,7 +332,8 @@
 		font-size: 22px;
 		width: 80%;
 		margin-left: 15px;
-	  }
+		margin: 0 auto;
+	}
 	.profile__infos-edit{
 		top: 30px;
 		right: 25%;
@@ -369,6 +370,15 @@
 	.profile__modal-close{
 		right: 0;
 		top: -50px;
+	}
+	.popup_type_avatar .popup__content {
+		width: 70%;
+	}
+	.popup_type_avatar .popup__close_avatar {
+		position: absolute;
+		top: -40px;
+		right: -10px;
+		cursor: pointer;
 	}
 }
 
