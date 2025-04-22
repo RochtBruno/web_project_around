@@ -103,7 +103,6 @@ let cardsSection;
 api
   .getInitialCards()
   .then((res) => {
-    console.log("response-> ", res);
     if (res.status !== 200) {
       return Promise.reject("Erro da requisição-> ", res.status);
     }
@@ -121,7 +120,6 @@ api
       ".cards"
     );
     cardsSection.renderItems();
-    console.log("Cartões retornados pela API:", cards);
     return cards
   })
   .catch((error) => {
@@ -145,7 +143,6 @@ api.getUser()
     profileName.textContent = data.name;
     profileAbout.textContent = data.about;
     profileImage.src = data.avatar;
-    console.log(data);
   })
   .catch((err) => {
     console.log("[GET] - users/me -> " + err);
@@ -184,11 +181,11 @@ const avatarCloseButton = avatarPopup.querySelector(".popup__close_avatar");
 const avatarElement = document.querySelector(".profile__image img");
 
 function openAvatarPopup() {
-  avatarPopup.style.display = "flex"; 
+  avatarPopup.style.display = "flex";
 }
 
 function closeAvatarPopup() {
-  avatarPopup.style.display = "none"; 
+  avatarPopup.style.display = "none";
 }
 
 avatarElement.addEventListener("click", openAvatarPopup);
