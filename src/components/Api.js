@@ -72,7 +72,6 @@ export default class Api {
   }
 
   removeLike(cardId) {
-	console.log(`Enviando solicitação DELETE para remover curtida do cartão com ID: ${cardId}`);
 	return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
 	  method: "DELETE",
 	  headers: this._headers,

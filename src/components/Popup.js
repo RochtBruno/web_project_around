@@ -1,16 +1,21 @@
 export default class Popup {
 	constructor(popupSelector) {
 		this._popup = document.querySelector(popupSelector);
+		this._overlay = document.querySelector('.profile__overlay');
 		this._handleEscClose = this._handleEscClose.bind(this);
 	}
 
-	open() {
+	open(handleOverlay = true) {
 		this._popup.classList.add('opened');
+		if(handleOverlay && this._overlay)
+			this._overlay.classList.add('opened');
 		document.addEventListener('keydown', this._handleEscClose);
 	}
 
-	close() {
+	close(handleOverlay = true) {
 		this._popup.classList.remove('opened');
+		if(handleOverlay && this._overlay)
+			this._overlay.classList.remove('opened');
 		document.removeEventListener('keydown', this._handleEscClose);
 	}
 

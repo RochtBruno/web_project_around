@@ -12,11 +12,11 @@ export default class PopupWithImage extends Popup {
     this._image.alt = title;
     this._caption.textContent = title;
     this._popup.classList.add("opened");
-    super.open();
+    super.open(false);
   }
   close() {
     this._popup.classList.remove("opened");
-    super.close();
+    super.close(false);
   }
 }
 
