@@ -68,10 +68,10 @@ export class Card {
 
 		if (this._isLiked) {
 		  this._likeButton.classList.add("active");
-		  this._likeButton.src = "../../images/Union.svg";
+		  this._likeButton.src = "../images/Union.svg";
 		} else {
 		  this._likeButton.classList.remove("active");
-		  this._likeButton.src = "../../images/Group.svg";
+		  this._likeButton.src = "../images/Group.svg";
 		}
 
 		this._setEventListeners();
