@@ -44,8 +44,8 @@ export class Card {
 			this._isLiked = updatedCard.isLiked;
 			this._likeButton.classList.toggle("active", this._isLiked);
 			this._likeButton.src = this._isLiked
-			  ? "../../images/Union.svg"
-			  : "../../images/Group.svg";
+			  ? "../images/Union.svg"
+			  : "../images/Group.svg";
 		  })
 		  .catch((err) => {
 			console.error("Erro ao alternar curtida:", err);
